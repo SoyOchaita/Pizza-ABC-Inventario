@@ -8,7 +8,7 @@
             <h2 class="text-2xl font-bold text-center mb-8">Nuestros Productos</h2>
             <div class="grid grid-cols-2 md:grid-cols-3 gap-6">
                 @foreach($productos as $producto)
-                    <div class="bg-gray-800 p-4 rounded-lg">
+                    <div class="bg-mcdonaldsfondo-800 p-4 rounded-lg">
                         <img src="{{ $producto->imagen }}" class="w-full h-40 object-cover mb-4" alt="{{ $producto->nombre }}">
                         <h3 class="text-lg font-semibold">{{ $producto->nombre }}</h3>
                         <p class="text-gray-400">{{ $producto->descripcion }}</p>
