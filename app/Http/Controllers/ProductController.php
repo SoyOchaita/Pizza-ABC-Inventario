@@ -7,18 +7,17 @@ use Illuminate\Http\Request;
 
 class ProductController extends Controller
 {
-    // Método para listar todos los productos
+    // Método para listar productos
     public function index()
     {
-        $productos = Product::with('category')->get(); // Obtener productos con sus categorías
-        return view('productos.index', compact('productos')); // Retornar la vista con los productos
+        $productos = Product::with('category')->get();
+        return view('productos.index', compact('productos'));
     }
 
-    // Método para mostrar los detalles de un producto específico
+    // Método para mostrar un producto específico
     public function show($id)
     {
-        $producto = Product::findOrFail($id); // Buscar el producto por ID
-        return view('productos.show', compact('producto')); // Retornar la vista con los detalles del producto
+        $producto = Product::findOrFail($id);
+        return view('productos.show', compact('producto'));
     }
 }
-
