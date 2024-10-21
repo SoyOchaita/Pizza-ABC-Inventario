@@ -9,7 +9,7 @@ class Product extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['name', 'description', 'price', 'category_id']; // Campos asignables en masa
+    protected $fillable = ['name', 'description', 'price', 'category_id', 'imagen']; // Agregamos imagen a los campos asignables en masa
 
     // Relación de producto con categoría (un producto pertenece a una categoría)
     public function category()
@@ -17,3 +17,4 @@ class Product extends Model
         return $this->belongsTo(Category::class);
     }
 }
+
