@@ -18,7 +18,17 @@ class CartController extends Controller
             'status' => 'activo'
         ]);
 
-        $cart->products()->attach($product, ['quantity' => $request->quantity ?? 1]);
+        // Comprobar si el producto ya está en el carrito
+        $existingProduct = $cart->products()->where('product_id', $product->id)->first();
+
+        if ($existingProduct) {
+            // Actualizar la cantidad si ya existe
+            $newQuantity = $existingProduct->pivot->quantity + ($request->quantity ?? 1);
+            $cart->products()->updateExistingPivot($product->id, ['quantity' => $newQuantity]);
+        } else {
+            // Agregar nuevo producto si no está en el carrito
+            $cart->products()->attach($product, ['quantity' => $request->quantity ?? 1]);
+        }
 
         return redirect()->route('cart.show');
     }
@@ -42,7 +52,9 @@ class CartController extends Controller
     public function updateQuantity(Request $request, $productId)
     {
         $cart = Cart::where('user_id', Auth::id())->where('status', 'activo')->first();
-        $cart->products()->updateExistingPivot($productId, ['quantity' => $request->quantity]);
+        $newQuantity = max($request->quantity, 1); // Asegurar que la cantidad sea al menos 1
+        $cart->products()->updateExistingPivot($productId, ['quantity' => $newQuantity]);
+
         return redirect()->route('cart.show');
     }
 }

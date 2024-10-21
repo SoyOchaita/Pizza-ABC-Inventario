@@ -5,14 +5,16 @@
                 <!-- Logo -->
                 <div class="shrink-0 flex items-center">
                     <a href="{{ route('dashboard') }}">
-                        <x-application-logo class="block h-9 w-auto fill-current text-yellow-500" />
+                        <img src="https://eastgateshoppingcentre.com/wp-content/uploads/2023/08/maccies.png" 
+                            alt="Logo McDonald's" class="block h-14 w-auto">
                     </a>
                 </div>
+
 
                 <!-- Navigation Links -->
                 <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
                     <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
-                        {{ __('Dashboard') }}
+                        {{ __('Inicio') }}
                     </x-nav-link>
                     <x-nav-link :href="route('productos.index')" :active="request()->routeIs('productos.index')">
                         {{ __('Menú') }}
