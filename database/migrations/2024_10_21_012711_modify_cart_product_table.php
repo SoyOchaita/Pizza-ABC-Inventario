@@ -21,9 +21,18 @@ class ModifyCartProductTable extends Migration
                 $table->unsignedBigInteger('product_id');
             }
 
-            // Asegurar las claves foráneas
-            $table->foreign('cart_id')->references('id')->on('carts')->onDelete('cascade');
-            $table->foreign('product_id')->references('id')->on('products')->onDelete('cascade');
+            // Agregar claves foráneas con nombres únicos
+            if (!Schema::hasColumn('cart_product', 'cart_id')) {
+                $table->foreign('cart_id', 'fk_cartproduct_cart_id')
+                      ->references('id')->on('carts')
+                      ->onDelete('cascade');
+            }
+
+            if (!Schema::hasColumn('cart_product', 'product_id')) {
+                $table->foreign('product_id', 'fk_cartproduct_product_id')
+                      ->references('id')->on('products')
+                      ->onDelete('cascade');
+            }
         });
     }
 
@@ -33,9 +42,9 @@ class ModifyCartProductTable extends Migration
     public function down()
     {
         Schema::table('cart_product', function (Blueprint $table) {
-            // Eliminar las claves foráneas si es necesario
-            $table->dropForeign(['cart_id']);
-            $table->dropForeign(['product_id']);
+            // Eliminar las claves foráneas
+            $table->dropForeign('fk_cartproduct_cart_id');
+            $table->dropForeign('fk_cartproduct_product_id');
         });
     }
 }

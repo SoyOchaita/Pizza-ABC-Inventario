@@ -74,8 +74,15 @@ CREATE TABLE `cart_product` (
   `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+  `cart_id` bigint(20) unsigned NOT NULL,
+  `product_id` bigint(20) unsigned NOT NULL,
+  `quantity` int(11) NOT NULL DEFAULT 1,
+  PRIMARY KEY (`id`),
+  KEY `cart_product_cart_id_foreign` (`cart_id`),
+  KEY `cart_product_product_id_foreign` (`product_id`),
+  CONSTRAINT `cart_product_cart_id_foreign` FOREIGN KEY (`cart_id`) REFERENCES `carts` (`id`) ON DELETE CASCADE,
+  CONSTRAINT `cart_product_product_id_foreign` FOREIGN KEY (`product_id`) REFERENCES `products` (`id`) ON DELETE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -84,6 +91,7 @@ CREATE TABLE `cart_product` (
 
 LOCK TABLES `cart_product` WRITE;
 /*!40000 ALTER TABLE `cart_product` DISABLE KEYS */;
+INSERT INTO `cart_product` VALUES (3,'2024-10-21 10:20:17','2024-10-21 10:20:24',1,5,3);
 /*!40000 ALTER TABLE `cart_product` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -244,7 +252,7 @@ CREATE TABLE `migrations` (
   `migration` varchar(255) NOT NULL,
   `batch` int(11) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -253,7 +261,7 @@ CREATE TABLE `migrations` (
 
 LOCK TABLES `migrations` WRITE;
 /*!40000 ALTER TABLE `migrations` DISABLE KEYS */;
-INSERT INTO `migrations` VALUES (6,'0001_01_01_000000_create_users_table',1),(7,'0001_01_01_000001_create_cache_table',1),(8,'0001_01_01_000002_create_jobs_table',1),(9,'2024_10_18_150927_create_categories_table',1),(10,'2024_10_18_151532_create_products_table',1),(11,'2024_10_20_170437_create_carts_table',2),(12,'2024_10_20_170512_create_cart_product_table',2),(13,'2024_10_20_182825_add_imagen_to_products_table',3);
+INSERT INTO `migrations` VALUES (6,'0001_01_01_000000_create_users_table',1),(7,'0001_01_01_000001_create_cache_table',1),(8,'0001_01_01_000002_create_jobs_table',1),(9,'2024_10_18_150927_create_categories_table',1),(10,'2024_10_18_151532_create_products_table',1),(11,'2024_10_20_170437_create_carts_table',2),(12,'2024_10_20_170512_create_cart_product_table',2),(13,'2024_10_20_182825_add_imagen_to_products_table',3),(14,'2024_10_21_012711_modify_cart_product_table',4),(15,'2024_10_21_013540_add_quantity_to_cart_product_table',5);
 /*!40000 ALTER TABLE `migrations` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -339,7 +347,7 @@ CREATE TABLE `sessions` (
 
 LOCK TABLES `sessions` WRITE;
 /*!40000 ALTER TABLE `sessions` DISABLE KEYS */;
-INSERT INTO `sessions` VALUES ('MdN2t87iWM4H5lTX2MtQ4PCUS6f3TRsFMEnB9RcX',1,'127.0.0.1','Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.0.0 Safari/537.36 Edg/130.0.0.0','YTo1OntzOjY6Il90b2tlbiI7czo0MDoiVjJqUVV1QTNscHhYYXZUUG1zM3lGb01hdFBrUmhOZlZycVlZODJGQyI7czo2OiJfZmxhc2giO2E6Mjp7czozOiJvbGQiO2E6MDp7fXM6MzoibmV3IjthOjA6e319czo5OiJfcHJldmlvdXMiO2E6MTp7czozOiJ1cmwiO3M6Mjk6Imh0dHA6Ly8xMjcuMC4wLjE6ODAwMC9jYXJyaXRvIjt9czozOiJ1cmwiO2E6MDp7fXM6NTA6ImxvZ2luX3dlYl81OWJhMzZhZGRjMmIyZjk0MDE1ODBmMDE0YzdmNThlYTRlMzA5ODlkIjtpOjE7fQ==',1729473595);
+INSERT INTO `sessions` VALUES ('lof7LkFOSg8bE7esUW9yeGsxKhdog4rUYys0aadd',NULL,'127.0.0.1','Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.0.0 Safari/537.36 Edg/130.0.0.0','YTozOntzOjY6Il90b2tlbiI7czo0MDoiRkNMRUFWekYxZWUyR1llRmlIWkIyRHVmMkFIR3IwM0Nad0VIODJJZCI7czo2OiJfZmxhc2giO2E6Mjp7czozOiJvbGQiO2E6MDp7fXM6MzoibmV3IjthOjA6e319czo5OiJfcHJldmlvdXMiO2E6MTp7czozOiJ1cmwiO3M6Mjc6Imh0dHA6Ly8xMjcuMC4wLjE6ODAwMC9sb2dpbiI7fX0=',1729492662),('z2ilnJB57YcwgcHTRrUZD1QtaOStnSFIxa01rRRP',1,'127.0.0.1','Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.0.0 Safari/537.36 Edg/130.0.0.0','YTo1OntzOjY6Il90b2tlbiI7czo0MDoiSXo4WHdQUGRZQ1dva0t3WmR2SFRvM2F6ZjE0UE03eXNFaTEwR3RBRCI7czo2OiJfZmxhc2giO2E6Mjp7czozOiJvbGQiO2E6MDp7fXM6MzoibmV3IjthOjA6e319czo5OiJfcHJldmlvdXMiO2E6MTp7czozOiJ1cmwiO3M6MjE6Imh0dHA6Ly8xMjcuMC4wLjE6ODAwMCI7fXM6MzoidXJsIjthOjA6e31zOjUwOiJsb2dpbl93ZWJfNTliYTM2YWRkYzJiMmY5NDAxNTgwZjAxNGM3ZjU4ZWE0ZTMwOTg5ZCI7aToxO30=',1729489289);
 /*!40000 ALTER TABLE `sessions` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -370,7 +378,7 @@ CREATE TABLE `users` (
 
 LOCK TABLES `users` WRITE;
 /*!40000 ALTER TABLE `users` DISABLE KEYS */;
-INSERT INTO `users` VALUES (1,'Alfonso','alfonso@example.com',NULL,'$2y$12$j9cqe9obFCk73B15EuE3gugYiEO8sb5Bm23a56dTOvq9IW6M33KHS','Gz1ZzD6zUsTL9nkBx0DB9sfSq8CRKG8R6fzJyJ4Bc1UOeoXPJHE1PK9ALDRb','2024-10-20 11:36:09','2024-10-20 12:27:01');
+INSERT INTO `users` VALUES (1,'Alfonso','alfonso@example.com',NULL,'$2y$12$j9cqe9obFCk73B15EuE3gugYiEO8sb5Bm23a56dTOvq9IW6M33KHS','WYxXA5O409W8maSsg1wJEcCIwhe3Qj0six1jLxmZpnledyJ11QF2z611SYut','2024-10-20 11:36:09','2024-10-20 12:27:01');
 /*!40000 ALTER TABLE `users` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -383,4 +391,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2024-10-20 19:23:19
+-- Dump completed on 2024-10-21  0:40:58

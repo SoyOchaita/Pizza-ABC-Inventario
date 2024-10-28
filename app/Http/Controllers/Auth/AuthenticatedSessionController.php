@@ -28,7 +28,11 @@ class AuthenticatedSessionController extends Controller
 
         $request->session()->regenerate();
 
+        // Agregar el mensaje flash a la sesión
+        $request->session()->flash('status', 'Ha iniciado sesión con éxito!');
+        
         return redirect()->intended(route('dashboard', absolute: false));
+        
     }
 
     /**
@@ -44,4 +48,7 @@ class AuthenticatedSessionController extends Controller
 
         return redirect('/');
     }
+
+
+    
 }
