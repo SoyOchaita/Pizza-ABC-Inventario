@@ -6,6 +6,8 @@ use App\Models\Cart;
 use App\Models\Product;
 use App\Models\Pedido;
 use App\Models\Sucursal;
+use App\Models\Pedido;
+use App\Models\Sucursal;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -54,6 +56,11 @@ class CartController extends Controller
             ->with('products')
             ->first();
 
+        $cart = Cart::where('user_id', Auth::id())
+            ->where('status', 'activo')
+            ->with('products')
+            ->first();
+
         return view('cart.show', compact('cart'));
     }
 
@@ -64,7 +71,12 @@ class CartController extends Controller
             ->where('status', 'activo')
             ->first();
 
+        $cart = Cart::where('user_id', Auth::id())
+            ->where('status', 'activo')
+            ->first();
+
         $cart->products()->detach($productId);
+
 
         return redirect()->route('cart.show');
     }
@@ -72,9 +84,94 @@ class CartController extends Controller
     // Actualizar la cantidad de un producto en el carrito
     public function updateQuantity(Request $request, $productId)
     {
-        $cart = Cart::where('user_id', Auth::id())->where('status', 'activo')->first();
+        $cart = Cart::where('user_id', Auth::id())
+            ->where('status', 'activo')
+            ->first();
+
         $newQuantity = max($request->quantity, 1); // Asegurar que la cantidad sea al menos 1
         $cart->products()->updateExistingPivot($productId, ['quantity' => $newQuantity]);
+
+        return redirect()->route('cart.show');
+    }
+
+    // Incrementar la cantidad de un producto (para AJAX)
+    public function incrementQuantity(Request $request, $productId)
+    {
+        $cart = Cart::where('user_id', Auth::id())
+            ->where('status', 'activo')
+            ->first();
+
+        $existingProduct = $cart->products()->where('product_id', $productId)->first();
+
+        if ($existingProduct) {
+            $newQuantity = $existingProduct->pivot->quantity + 1;
+            $cart->products()->updateExistingPivot($productId, ['quantity' => $newQuantity]);
+
+            $totalPrice = $newQuantity * $existingProduct->price;
+            $cartTotal = $this->calculateCartTotal($cart);
+
+            return response()->json([
+                'success' => true,
+                'quantity' => $newQuantity,
+                'totalPrice' => $totalPrice,
+                'cartTotal' => $cartTotal,
+            ]);
+        }
+
+        return response()->json(['success' => false], 400);
+    }
+
+    // Decrementar la cantidad de un producto (para AJAX)
+    public function decrementQuantity(Request $request, $productId)
+    {
+        $cart = Cart::where('user_id', Auth::id())
+            ->where('status', 'activo')
+            ->first();
+
+        $existingProduct = $cart->products()->where('product_id', $productId)->first();
+
+        if ($existingProduct) {
+            $newQuantity = $existingProduct->pivot->quantity - 1;
+
+            if ($newQuantity > 0) {
+                $cart->products()->updateExistingPivot($productId, ['quantity' => $newQuantity]);
+
+                $totalPrice = $newQuantity * $existingProduct->price;
+                $cartTotal = $this->calculateCartTotal($cart);
+
+                return response()->json([
+                    'success' => true,
+                    'quantity' => $newQuantity,
+                    'totalPrice' => $totalPrice,
+                    'cartTotal' => $cartTotal,
+                ]);
+            } else {
+                // Eliminar el producto si la cantidad es 0
+                $cart->products()->detach($productId);
+
+                $cartTotal = $this->calculateCartTotal($cart);
+
+                return response()->json([
+                    'success' => true,
+                    'quantity' => 0,
+                    'totalPrice' => 0,
+                    'cartTotal' => $cartTotal,
+                    'removed' => true,
+                ]);
+            }
+        }
+
+        return response()->json(['success' => false], 400);
+    }
+
+    // Eliminar todos los productos de un tipo
+    public function removeAllOfProduct($productId)
+    {
+        $cart = Cart::where('user_id', Auth::id())
+            ->where('status', 'activo')
+            ->first();
+
+        $cart->products()->detach($productId);
 
         return redirect()->route('cart.show');
     }
