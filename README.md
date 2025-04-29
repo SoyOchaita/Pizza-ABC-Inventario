@@ -1,66 +1,153 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# Proyecto: Pizza ABC Inventario
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+Repositorio: [https://github.com/SoyOchaita/Pizza-ABC-Inventario](https://github.com/SoyOchaita/Pizza-ABC-Inventario)
 
-## About Laravel
+---
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+## 🚀 Requisitos previos
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+- Tener instalado **XAMPP** (Apache y MySQL activos)
+- Tener instalado **PHP** (8.1 o superior)
+- Tener instalado **Composer** [https://getcomposer.org/](https://getcomposer.org/)
+- Tener instalado **Node.js** y **npm** [https://nodejs.org/](https://nodejs.org/)
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+---
 
-## Learning Laravel
+## 📥 Pasos para instalar el proyecto
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+### 1. Clonar el repositorio
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+Puedes escoger la carpeta que prefieras en tu computadora, por ejemplo:
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+```bash
+cd C:/MiCarpeta/Proyectos
 
-## Laravel Sponsors
+git clone https://github.com/SoyOchaita/Pizza-ABC-Inventario.git Inventario_ABC
+cd Inventario_ABC
+```
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+---
 
-### Premium Partners
+### 2. Instalar dependencias de PHP (Laravel)
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[WebReinvent](https://webreinvent.com/)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Jump24](https://jump24.co.uk)**
-- **[Redberry](https://redberry.international/laravel/)**
-- **[Active Logic](https://activelogic.com)**
-- **[byte5](https://byte5.de)**
-- **[OP.GG](https://op.gg)**
+```bash
+composer install
+```
 
-## Contributing
+---
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+### 3. Configurar el archivo `.env`
 
-## Code of Conduct
+Copia el archivo `.env.example`:
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+```bash
+copy .env.example .env
+```
 
-## Security Vulnerabilities
+Edita el archivo `.env` y configura las siguientes variables:
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+```dotenv
+APP_NAME="PizzaABC"
+APP_URL=http://localhost/Inventario_ABC/public
 
-## License
+DB_CONNECTION=mysql
+DB_HOST=127.0.0.1
+DB_PORT=3306
+DB_DATABASE=pizzaabc
+DB_USERNAME=root
+DB_PASSWORD=
+```
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+> Nota: Crea una base de datos llamada **pizzaabc** en phpMyAdmin antes de continuar.
+
+---
+
+### 4. Generar la clave de la aplicación
+
+```bash
+php artisan key:generate
+```
+
+---
+
+### 5. Migrar la base de datos
+
+(Si no tienes respaldo `.sql`, corre:)
+
+```bash
+php artisan migrate
+```
+
+---
+
+### 6. Instalar dependencias de frontend (Vite)
+
+```bash
+npm install
+```
+
+---
+
+### 7. Compilar assets para producción
+
+```bash
+npm run build
+```
+
+Esto generará la carpeta `/public/build` con el `manifest.json` que necesita Vite.
+
+---
+
+### 8. Iniciar el proyecto en el navegador
+
+Asegúrate que Apache y MySQL estén encendidos en XAMPP, y abre:
+
+```
+http://localhost/Inventario_ABC/public
+```
+
+---
+
+## ⚡ Comandos resumidos
+
+```bash
+cd ruta/donde/quieras/clonar
+
+git clone https://github.com/SoyOchaita/Pizza-ABC-Inventario.git Inventario_ABC
+cd Inventario_ABC
+
+composer install
+copy .env.example .env
+php artisan key:generate
+php artisan migrate
+
+npm install
+npm run build
+```
+
+---
+
+## ✨ Observaciones
+
+- Si ves el error **"Vite manifest not found"**, recuerda correr `npm run build`.
+- Si quieres eliminar `/public` de la URL, puedes configurar un Virtual Host (opcional).
+- Cada vez que modifiques archivos de frontend, debes volver a correr `npm run build`.
+
+---
+
+## 🌐 Links útiles
+
+- Composer: [https://getcomposer.org/](https://getcomposer.org/)
+- Node.js: [https://nodejs.org/](https://nodejs.org/)
+- Documentación Laravel: [https://laravel.com/docs/10.x](https://laravel.com/docs/10.x)
+
+
+## 🔗 Contacto para soporte
+
+**Desarrollador:** Alfonso Ochaita  
+**Email:** ochaita2404@gmail.com
+
+---
+
+¡Listo! Con estos pasos cualquier persona podrá instalar y correr el proyecto de forma rápida y segura. 🚀
+
